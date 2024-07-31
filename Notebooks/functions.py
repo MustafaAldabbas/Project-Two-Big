@@ -728,6 +728,75 @@ def AgeDistributionInExperimentGroup(df):
 
 
 import pandas as pd
+import matplotlib.pyplot as plt
+
+def analyze_gender_distribution(df):
+    """
+    Analyze and visualize the gender distribution in test and control groups based on unique client IDs.
+
+    Parameters:
+    - df: DataFrame, the dataset containing the relevant data
+
+    Returns:
+    - gender_distribution_unique: DataFrame, gender distribution counts in test and control groups
+    """
+    # Filter the dataframe for relevant columns and rows (gender 'F' and 'M' only)
+    df_filtered = df[df['gender'].isin(['F', 'M'])]
+
+    # Ensure calculations are based on unique client_id
+    unique_clients = df_filtered.drop_duplicates(subset='client_id')
+
+    # Group by variation and gender to get the counts based on unique client_id
+    gender_distribution_unique = unique_clients.groupby(['variation', 'gender']).size().unstack(fill_value=0)
+
+    # Plotting the results
+    ax_unique = gender_distribution_unique.plot(kind='bar', figsize=(6, 3))
+    ax_unique.set_title('Gender Distribution in Test and Control Groups (Unique Clients)')
+    ax_unique.set_xlabel('Group')
+    ax_unique.set_ylabel('Count')
+    ax_unique.legend(title='Gender')
+
+    # Annotate the bars with the counts
+    for p in ax_unique.patches:
+        ax_unique.annotate(str(p.get_height()), (p.get_x() * 1.005, p.get_height() * 1.005))
+
+    # Display the plot
+    plt.show()
+
+    # Print the number of clients by gender in each group
+    print("Number of clients by gender in each group:")
+    print(gender_distribution_unique)
+
+    # Return the dataframe with the results
+    return gender_distribution_unique
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import pandas as pd
 import numpy as np
 from statsmodels.stats.proportion import proportions_ztest
 import matplotlib.pyplot as plt
@@ -781,7 +850,7 @@ def analyze_experiment_completion_rates(df):
     }
 
     # Completion Rates Pie Chart for Test Group
-    fig, ax = plt.subplots(1, 2, figsize=(14, 7))
+    fig, ax = plt.subplots(1, 2, figsize=(7, 4))
 
     ax[0].pie([completion_rate_test, 1 - completion_rate_test], labels=['Completed', 'Not Completed'], autopct='%1.1f%%', startangle=90, colors=['#ff9999', '#66b3ff'])
     ax[0].set_title('Completion Rates - Test Group')
@@ -865,7 +934,7 @@ def analyze_experiment_error_rates(df):
     }
 
     # Error Rates Pie Chart for Test Group
-    fig, ax = plt.subplots(1, 2, figsize=(14, 7))
+    fig, ax = plt.subplots(1, 2, figsize=(7, 4))
 
     ax[0].pie([error_rate_test, 1 - error_rate_test], labels=['Errors', 'No Errors'], autopct='%1.1f%%', startangle=90, colors=['#ff9999', '#66b3ff'])
     ax[0].set_title('Error Rates - Test Group')
