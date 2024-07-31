@@ -779,6 +779,106 @@ def analyze_gender_distribution(df):
 
 
 
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def combined_analysis(df):
+    """
+    Analyze and visualize the client distribution in test and control groups,
+    the age distribution, and the gender distribution based on unique client IDs.
+
+    Parameters:
+    - df: DataFrame, the dataset containing the relevant data
+
+    Returns:
+    - gender_distribution_unique: DataFrame, gender distribution counts in test and control groups
+    - client_group_counts: tuple, containing the number of clients in the test group and the control group
+    - age_distribution_test_group: Series, age distribution for the test group
+    - age_distribution_control_group: Series, age distribution for the control group
+    """
+    # Ensure the 'process_step' column is present
+    if 'process_step' not in df.columns:
+        print(f"'process_step' column not found in the dataframe. Available columns: {df.columns}")
+        return None
+
+    # Calculate the number of unique clients in the test and control groups
+    unique_clients_count = df['client_id'].nunique()
+    test_group_count = df[df['variation'] == 'Test']['client_id'].nunique()
+    control_group_count = df[df['variation'] == 'Control']['client_id'].nunique()
+
+    # Calculate the percentages
+    test_group_percentage = (test_group_count / unique_clients_count) * 100
+    control_group_percentage = (control_group_count / unique_clients_count) * 100
+
+    # Age distribution for the test and control groups
+    age_distribution_test_group = df[df['variation'] == 'Test']['client_age'].describe()
+    age_distribution_control_group = df[df['variation'] == 'Control']['client_age'].describe()
+
+    # Filter the dataframe for relevant columns and rows (gender 'F' and 'M' only)
+    df_filtered = df[df['gender'].isin(['F', 'M'])]
+
+    # Ensure calculations are based on unique client_id
+    unique_clients = df_filtered.drop_duplicates(subset='client_id')
+
+    # Group by variation and gender to get the counts based on unique client_id
+    gender_distribution_unique = unique_clients.groupby(['variation', 'gender']).size().unstack(fill_value=0)
+
+    # Plotting the results
+    fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+
+    # Pie chart for client distribution
+    labels = [f'Test Group: {test_group_count}', f'Control Group: {control_group_count}']
+    sizes = [test_group_percentage, control_group_percentage]
+    colors = ['#ff9999', '#66b3ff']
+    explode = (0.1, 0)  # explode the 1st slice
+
+    axes[0, 0].pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
+                   shadow=True, startangle=140)
+    axes[0, 0].set_title('Percentage of Clients in Test and Control Groups')
+    axes[0, 0].axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    # Bar chart for gender distribution
+    gender_distribution_unique.plot(kind='bar', ax=axes[0, 1])
+    axes[0, 1].set_title('Gender Distribution in Test and Control Groups (Unique Clients)')
+    axes[0, 1].set_xlabel('Group')
+    axes[0, 1].set_ylabel('Count')
+    for p in axes[0, 1].patches:
+        axes[0, 1].annotate(str(p.get_height()), (p.get_x() * 1.005, p.get_height() * 1.005))
+    axes[0, 1].legend(title='Gender')
+
+    # Histogram for age distribution - Test Group
+    axes[1, 0].hist(df[df['variation'] == 'Test']['client_age'], bins=30, color='blue', alpha=0.7)
+    axes[1, 0].set_title('Age Distribution - Test Group')
+    axes[1, 0].set_xlabel('Age')
+    axes[1, 0].set_ylabel('Frequency')
+
+    # Histogram for age distribution - Control Group
+    axes[1, 1].hist(df[df['variation'] == 'Control']['client_age'], bins=30, color='green', alpha=0.7)
+    axes[1, 1].set_title('Age Distribution - Control Group')
+    axes[1, 1].set_xlabel('Age')
+    axes[1, 1].set_ylabel('Frequency')
+
+    # Adjust layout and display the plot
+    plt.tight_layout()
+    plt.show()
+
+    # Print the number of clients by gender in each group
+    print("Number of clients by gender in each group:")
+    print(gender_distribution_unique)
+
+    return gender_distribution_unique, (test_group_count, control_group_count), age_distribution_test_group, age_distribution_control_group
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
