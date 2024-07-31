@@ -1180,7 +1180,7 @@ def analyze_time_per_step_between_groups(df):
     t_test_results_df.to_csv('t_test_results.csv', index=False)
 
     # Visualize the average time spent on each step
-    fig, ax = plt.subplots(figsize=(14, 8))
+    fig, ax = plt.subplots(figsize=(6, 3))
     for label, df_group in avg_time_per_step.groupby('variation'):
         ax.plot(df_group['process_step'], df_group['time_diff_seconds'], marker='o', label=label)
 
@@ -1200,5 +1200,124 @@ def analyze_time_per_step_between_groups(df):
     plt.show()
 
     return avg_time_per_step, t_test_results_df
+
+
+
+
+
+
+
+
+
+    
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.stats import chi2_contingency
+
+def analyze_confirmation_by_gender(df):
+    """
+    Analyze the number of confirmations by gender and visualize the results for both test and control groups.
+    Perform chi-square tests to determine if there are significant differences in confirmation rates by gender.
+
+    Parameters:
+    - df: DataFrame, the dataset containing the relevant data
+
+    Returns:
+    - confirmation_summary_test: DataFrame, counts and percentages of confirmations by gender for the test group
+    - confirmation_summary_control: DataFrame, counts and percentages of confirmations by gender for the control group
+    """
+    # Filter the dataframe for rows where process_step is 'confirm' and gender is 'M' or 'F'
+    df_confirm = df[(df['process_step'] == 'confirm') & (df['gender'].isin(['M', 'F']))]
+
+    # Calculate the number of confirmations by gender for the test group
+    confirmation_counts_test = df_confirm[df_confirm['variation'] == 'Test']['gender'].value_counts()
+
+    # Calculate the number of confirmations by gender for the control group
+    confirmation_counts_control = df_confirm[df_confirm['variation'] == 'Control']['gender'].value_counts()
+
+    # Calculate the percentages for the test group
+    total_confirmations_test = confirmation_counts_test.sum()
+    confirmation_percentages_test = (confirmation_counts_test / total_confirmations_test) * 100
+
+    # Calculate the percentages for the control group
+    total_confirmations_control = confirmation_counts_control.sum()
+    confirmation_percentages_control = (confirmation_counts_control / total_confirmations_control) * 100
+
+    # Create dataframes with counts and percentages for the test group
+    confirmation_summary_test = pd.DataFrame({
+        'Count': confirmation_counts_test,
+        'Percentage': confirmation_percentages_test
+    })
+
+    # Create dataframes with counts and percentages for the control group
+    confirmation_summary_control = pd.DataFrame({
+        'Count': confirmation_counts_control,
+        'Percentage': confirmation_percentages_control
+    })
+
+    # Print the summaries
+    print("Test Group - Confirmation counts and percentages by gender:")
+    print(confirmation_summary_test)
+    print("\nControl Group - Confirmation counts and percentages by gender:")
+    print(confirmation_summary_control)
+
+    # Plotting the results
+    fig, ax = plt.subplots(2, 2, figsize=(6, 5))
+
+    # Bar chart for confirmation counts by gender - Test Group
+    confirmation_summary_test['Count'].plot(kind='bar', ax=ax[0, 0], color=['blue', 'green'])
+    ax[0, 0].set_title('Test Group - Confirmation Counts by Gender')
+    ax[0, 0].set_xlabel('Gender')
+    ax[0, 0].set_ylabel('Count')
+    for p in ax[0, 0].patches:
+        ax[0, 0].annotate(str(p.get_height()), (p.get_x() * 1.005, p.get_height() * 1.005))
+
+    # Pie chart for confirmation percentages by gender - Test Group
+    confirmation_summary_test['Percentage'].plot(kind='pie', ax=ax[0, 1], autopct='%1.1f%%', colors=['blue', 'green'])
+    ax[0, 1].set_title('Test Group - Confirmation Percentages by Gender')
+    ax[0, 1].set_ylabel('')
+
+    # Bar chart for confirmation counts by gender - Control Group
+    confirmation_summary_control['Count'].plot(kind='bar', ax=ax[1, 0], color=['blue', 'green'])
+    ax[1, 0].set_title('Control Group - Confirmation Counts by Gender')
+    ax[1, 0].set_xlabel('Gender')
+    ax[1, 0].set_ylabel('Count')
+    for p in ax[1, 0].patches:
+        ax[1, 0].annotate(str(p.get_height()), (p.get_x() * 1.005, p.get_height() * 1.005))
+
+    # Pie chart for confirmation percentages by gender - Control Group
+    confirmation_summary_control['Percentage'].plot(kind='pie', ax=ax[1, 1], autopct='%1.1f%%', colors=['blue', 'green'])
+    ax[1, 1].set_title('Control Group - Confirmation Percentages by Gender')
+    ax[1, 1].set_ylabel('')
+
+    # Adjust layout and display the plot
+    plt.tight_layout()
+    plt.show()
+
+    # Perform chi-square test for the test group
+    contingency_test = pd.crosstab(df_confirm[df_confirm['variation'] == 'Test']['gender'],
+                                   df_confirm[df_confirm['variation'] == 'Test']['process_step'])
+    chi2_test, p_test, _, _ = chi2_contingency(contingency_test)
+    print(f"Chi-square test for the test group: chi2 = {chi2_test}, p-value = {p_test}")
+
+    # Perform chi-square test for the control group
+    contingency_control = pd.crosstab(df_confirm[df_confirm['variation'] == 'Control']['gender'],
+                                      df_confirm[df_confirm['variation'] == 'Control']['process_step'])
+    chi2_control, p_control, _, _ = chi2_contingency(contingency_control)
+    print(f"Chi-square test for the control group: chi2 = {chi2_control}, p-value = {p_control}")
+
+    # Analysis of results
+    if p_test < 0.05:
+        print("There is a significant difference in confirmation rates between genders in the test group.")
+    else:
+        print("There is no significant difference in confirmation rates between genders in the test group.")
+
+    if p_control < 0.05:
+        print("There is a significant difference in confirmation rates between genders in the control group.")
+    else:
+        print("There is no significant difference in confirmation rates between genders in the control group.")
+
+    return confirmation_summary_test, confirmation_summary_control
 
 
