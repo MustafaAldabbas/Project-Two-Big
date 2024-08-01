@@ -2,6 +2,8 @@
 import streamlit as st
 import Dan_functions as fn
 
+
+
 def main():
     st.title('Supermarket Sales Dashboard')
 
@@ -11,19 +13,19 @@ def main():
     web_path2 = '../Data/Raw/df_final_web_data_pt_2.txt'
 
     final_df = fn.load_merge_date(demo_path, client_path, web_path1, web_path2)
-    fn.clean_data(final_df)
+    final_df = fn.clean_data(final_df).head(50)
+ 
     
     # Interactive widgets
-    st.sidebar.header('Controls')
-    min_rating = st.sidebar.slider('Minimum Rating', min_value=0, max_value=10, value=5, step=1)
+   #  st.sidebar.header('Variance Type')
+    # min_rating = st.sidebar.slider('Variance Type', value1= 'Control', value2='Type')
     
     # Filter by rating
-    # filtered_data = final_df[final_df['Rating'] >= min_rating]
+    # filtered_data = final_df[final_df['variation'] == min_rating]
 
     # Summary statistics
     # updated_summary = get_summary(filtered_data)
-    st.write("### Summary Statistics")
-    st.table(final_df)
+
 
     # Display raw data
     st.write("### Raw Data")
