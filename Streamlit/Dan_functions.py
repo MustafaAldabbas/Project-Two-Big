@@ -1,5 +1,6 @@
 
 import pandas as pd
+import matplotlib.pyplot as plt
 
 def load_merge_date(demo_path, client_path, web_path1, web_path2) -> pd.DataFrame:
     """
