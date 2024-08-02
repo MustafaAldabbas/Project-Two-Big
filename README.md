@@ -1,6 +1,10 @@
 
 # Vanguard Digital A/B Experiment Analysis
 
+## Author 
+* Mustafa Aldabbas, connect with me on [LinkedIn](https://www.linkedin.com/in/mustafa-aldabbas-85256b95/)
+* Dan Sun
+  
 ## Introduction
 
 This project analyzes a digital experiment conducted by Vanguard to enhance user experience through a redesigned User Interface (UI) and contextual prompts. The objective was to determine if these changes would encourage more clients to complete their online processes.
@@ -29,25 +33,35 @@ Vanguard, a US-based investment management company, conducted an A/B test from 0
 - **Tenure Distribution**: Clients had a wide range of tenures, with many having long-standing relationships with Vanguard.
 - **Balance Distribution**: Balances varied widely, indicating diverse financial backgrounds.
 - **Logins and Calls**: Clients showed varying levels of interaction with Vanguard's online platform.
+  
+![UI Screenshot](https://github.com/MustafaAldabbas/Vanguard-Digital-Experiment-Analysis-/blob/main/Visuals%20/Age%20distribution.png)
+
 
 ### Bivariate Analysis
 - **Age vs. Balance**: Older clients tended to have higher balances.
 - **Tenure vs. Balance**: Longer tenure was associated with higher balances.
 - **Gender vs. Balance**: There were differences in balances between different gender groups.
+![UI Screenshot](  https://github.com/MustafaAldabbas/Vanguard-Digital-Experiment-Analysis-/blob/main/Visuals%20/gender%20vs%20Balance.png)
+  
+
+### Experiment Sample Characteristics
+![UI Screenshot](https://github.com/MustafaAldabbas/Vanguard-Digital-Experiment-Analysis-/blob/main/Visuals%20/number%20clients%2C%20test%2Ccontro.png)
 
 ### Hypothesis Testing
-1. **Hypothesis 1**: The new website drives more confirmations.
-   - **Result**: The test group showed a higher completion rate compared to the control group.
-2. **Hypothesis 2**: The new website reduces error rates.
-   - **Result**: The test group experienced fewer errors at each step.
-3. **Hypothesis 3**: The new website improves user efficiency by reducing time spent on each step.
-   - **Result**: The test group spent less time on each step, indicating a smoother process.
-4. **Hypothesis 4**: The new website improves user satisfaction.
-   - **Result**: User satisfaction scores were higher for the test group.
-5. **Hypothesis 5**: Males confirm more often than females in both the test and control groups.
-   - **Result**: Confirmation rates were higher for males, consistent across both groups.
-6. **Hypothesis 6**: The new website increases the number of logins.
-   - **Result**: The test group logged in more frequently than the control group.
+1. ** The new website drives more confirmations.**:
+
+![UI Screenshot](https://github.com/MustafaAldabbas/Vanguard-Digital-Experiment-Analysis-/blob/main/Visuals%20/completion%20rate%20.png)
+
+2. **The new website reduces error rates.**
+   
+![UI Screenshot](https://github.com/MustafaAldabbas/Vanguard-Digital-Experiment-Analysis-/blob/main/Visuals%20/error%20rate%20.png)
+
+3. ** Males confirm more often than females in both the test and control groups.**
+![UI Screenshot](https://github.com/MustafaAldabbas/Vanguard-Digital-Experiment-Analysis-/blob/main/Visuals%20/gender%2Ctest%2Ccontrol.png)
+
+4. **The new website improves user efficiency by reducing time spent on each step.**
+
+5. **The new website increases the number of logins.** 
 
 ## Conclusion
 
