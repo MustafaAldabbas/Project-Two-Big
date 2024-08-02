@@ -3,7 +3,7 @@
 
 ## Author 
 * Mustafa Aldabbas, connect with me on [LinkedIn](https://www.linkedin.com/in/mustafa-aldabbas-85256b95/), [on X](https://x.com/Mustafa_dabbas)
-* Dan Sun
+* Dan Sun, connect with me on [LinkedIn](https://www.linkedin.com/in/dan-sun-9b3315186/)
   
 ## Introduction
 
@@ -13,11 +13,19 @@ This project analyzes a digital experiment conducted by Vanguard to enhance user
 
 Vanguard, a US-based investment management company, conducted an A/B test from 03/15/2017 to 06/20/2017. The experiment compared a control group using the traditional UI with a test group experiencing the new, intuitive UI. Both groups followed the same process sequence, from an initial page to a final confirmation page.
 
+## Datasets Used
+* Client Profiles (Demographic Data)
+* Digital Footprints (Interaction Data)
+* Experiment Roster (Group Assignment)
+
+
 ## Experiment Sample Characteristics
 
 - **Age Distribution**: Most clients were in the age range of 30-60 years.
 - **Gender Distribution**: The sample included a balanced distribution of genders.
 - **Client Count**: The experiment included a significant number of clients in both the control and test groups, ensuring robust results.
+![UI Screenshot](https://github.com/MustafaAldabbas/Vanguard-Digital-Experiment-Analysis-/blob/main/Visuals%20/number%20clients%2C%20test%2Ccontro.png)
+
 
 ## Key Performance Indicators (KPIs)
 
@@ -43,9 +51,6 @@ Vanguard, a US-based investment management company, conducted an A/B test from 0
 - **Gender vs. Balance**: There were differences in balances between different gender groups.
 ![UI Screenshot](  https://github.com/MustafaAldabbas/Vanguard-Digital-Experiment-Analysis-/blob/main/Visuals%20/gender%20vs%20Balance.png)
   
-
-### Experiment Sample Characteristics
-![UI Screenshot](https://github.com/MustafaAldabbas/Vanguard-Digital-Experiment-Analysis-/blob/main/Visuals%20/number%20clients%2C%20test%2Ccontro.png)
 
 ### Hypothesis Testing
 1. ** The new website drives more confirmations.**:
